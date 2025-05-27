@@ -1,4 +1,5 @@
 import pygame
+from road import Road
 
 pygame.init()
 width = 2560
@@ -10,12 +11,16 @@ running = True
 fps = 60
 dt = 1/fps
 
+road = Road((width/2, height/2), 600, 5, 3)
+
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
     
     screen.fill('green')
+
+    road.draw_road(screen, 'grey')
 
     pygame.display.flip()
     clock.tick(fps)
