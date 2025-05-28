@@ -8,6 +8,8 @@ class Car:
         self.length = length
         self.color = color
 
+        self.controls = {"forward" : False, "reverse" : False, "left" : False, "right": False}
+
         self.speed = 0
         self.acceleration = 0.3
         self.max_speed = 10
@@ -16,23 +18,23 @@ class Car:
         self.angle = 0
         self.angular_acc = 0.007
 
-    def update(self, controls, dt):
-        self.move(controls, dt)
+    def update(self, dt):
+        self.move(dt)
 
-    def move(self, controls, dt):
+    def move(self, dt):
         dt_multiplier = dt*60
 
         if abs(self.speed) > 0:
             self.speed -= self.friction*self.speed*dt_multiplier
 
-        if controls["forward"]:
+        if self.controls["forward"]:
             self.speed = min(self.speed + self.acceleration*dt_multiplier, self.max_speed)
-        elif controls["reverse"]:
+        elif self.controls["reverse"]:
             self.speed = max(self.speed - self.acceleration*dt_multiplier, -self.max_speed/2)
 
-        if controls["left"]:
+        if self.controls["left"]:
             self.angle += self.angular_acc*self.speed*dt_multiplier
-        elif controls["right"]:
+        elif self.controls["right"]:
             self.angle -= self.angular_acc*self.speed*dt_multiplier
 
         if abs(self.speed) < self.friction:

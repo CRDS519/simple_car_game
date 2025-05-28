@@ -13,8 +13,6 @@ running = True
 fps = 60
 dt = 1/fps
 
-controls = {"forward" : False, "reverse" : False, "left" : False, "right": False}
-
 road = Road(origin, 500, 5, 3)
 car = Car((width/2, 2*(height/3)), 60, 100, "red")
 
@@ -24,22 +22,22 @@ while running:
             running = False
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP:
-                controls["forward"] = True
+                car.controls["forward"] = True
             if event.key == pygame.K_DOWN:
-                controls["reverse"] = True
+                car.controls["reverse"] = True
             if event.key == pygame.K_LEFT:
-                controls["left"] = True
+                car.controls["left"] = True
             if event.key == pygame.K_RIGHT:
-                controls["right"] = True
+                car.controls["right"] = True
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_UP:
-                controls["forward"] = False
+                car.controls["forward"] = False
             if event.key == pygame.K_DOWN:
-                controls["reverse"] = False
+                car.controls["reverse"] = False
             if event.key == pygame.K_LEFT:
-                controls["left"] = False
+                car.controls["left"] = False
             if event.key == pygame.K_RIGHT:
-                controls["right"] = False
+                car.controls["right"] = False
     
     screen.fill((82,82,82))
 
@@ -47,7 +45,7 @@ while running:
     camera_y = car.y - screen_center_y
 
     road.draw_road(screen, 'grey', camera_y)
-    car.update(controls, dt)
+    car.update(dt)
     car.draw(screen, camera_y)
 
     pygame.display.flip()
