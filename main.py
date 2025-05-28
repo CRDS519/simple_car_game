@@ -15,8 +15,8 @@ dt = 1/fps
 
 controls = {"forward" : False, "reverse" : False, "left" : False, "right": False}
 
-road = Road(origin, 600, 5, 3)
-car = Car(origin, 60, 100, 'red')
+road = Road(origin, 500, 5, 3)
+car = Car((width/2, 2*(height/3)), 60, 100, "red")
 
 while running:
     for event in pygame.event.get():
@@ -40,14 +40,16 @@ while running:
                 controls["left"] = False
             if event.key == pygame.K_RIGHT:
                 controls["right"] = False
-
-
     
     screen.fill((82,82,82))
 
     road.draw_road(screen, 'grey')
     car.update(controls)
     car.draw(screen)
+
+    temp_surf = screen.copy()
+    screen.fill((0,0,0))
+    screen.blit(temp_surf, (0,- car.y + 2*(height/3)))
 
     pygame.display.flip()
     clock.tick(fps)
