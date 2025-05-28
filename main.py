@@ -18,7 +18,7 @@ while running:
         if event.type == pygame.QUIT:
             running = False
     
-    screen.fill('green')
+    screen.fill((82,82,82))
 
     road.draw_road(screen, 'grey')
 
