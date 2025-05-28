@@ -43,13 +43,12 @@ while running:
     
     screen.fill((82,82,82))
 
-    road.draw_road(screen, 'grey')
-    car.update(controls)
-    car.draw(screen)
+    screen_center_y = 2*height/3
+    camera_y = car.y - screen_center_y
 
-    temp_surf = screen.copy()
-    screen.fill((0,0,0))
-    screen.blit(temp_surf, (0,- car.y + 2*(height/3)))
+    road.draw_road(screen, 'grey', camera_y)
+    car.update(controls, dt)
+    car.draw(screen, camera_y)
 
     pygame.display.flip()
     clock.tick(fps)

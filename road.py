@@ -27,16 +27,21 @@ class Road:
 
         return L
 
-    def draw_road(self, screen, color):
+    def draw_road(self, screen, color, camera_y):
+        top = self.top - camera_y
+        bottom = self.bottom - camera_y
+
         lines_pos = self.get_line_position()
 
-        pygame.draw.rect(screen, color, pygame.Rect(self.left, self.top, self.width, 2*self.infinity))
+        pygame.draw.rect(screen, color, pygame.Rect(self.left, top, self.width, bottom - top))
 
-        n = 2*self.infinity // self.dashing
+        n = (bottom - top) // self.dashing + 1
         for i in range(self.lane_count + 1):
+            x = lines_pos[i]
             if i == 0 or i == self.lane_count:
-                pygame.draw.line(screen, 'white', (lines_pos[i], self.top), (lines_pos[i], self.bottom), self.line_width)
+                pygame.draw.line(screen, 'white', (x, top), (x, bottom), self.line_width)
             else :
-                for j in range(n):
+                y0 = top
+                for j in range(int(n)):
                     if j % 2 == 0:
-                        pygame.draw.line(screen, 'white', (lines_pos[i], self.top + j*self.dashing), (lines_pos[i], self.top + (j+1)*self.dashing), self.line_width)
+                        pygame.draw.line(screen, 'white', (x, y0 + j*self.dashing), (x, y0 + (j+1)*self.dashing), self.line_width)

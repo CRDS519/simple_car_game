@@ -16,28 +16,24 @@ class Car:
         self.angle = 0
         self.angular_acc = 0.007
 
-    def update(self, controls):
-        self.move(controls)
+    def update(self, controls, dt):
+        self.move(controls, dt)
 
-    def move(self, controls):
+    def move(self, controls, dt):
+        dt_multiplier = dt*60
+
         if abs(self.speed) > 0:
-            self.speed -= self.friction*self.speed
+            self.speed -= self.friction*self.speed*dt_multiplier
 
-        if controls["forward"] == True:
-            if self.speed + self.acceleration > self.max_speed:
-                self.speed = self.max_speed
-            else:
-                self.speed += self.acceleration
-        elif controls["reverse"] == True:
-            if self.speed - self.acceleration < -self.max_speed/2:
-                self.speed = -self.max_speed/2
-            else:
-                self.speed -= self.acceleration
+        if controls["forward"]:
+            self.speed = min(self.speed + self.acceleration*dt_multiplier, self.max_speed)
+        elif controls["reverse"]:
+            self.speed = max(self.speed - self.acceleration*dt_multiplier, -self.max_speed/2)
 
-        if controls["left"] == True:
-            self.angle += self.angular_acc*self.speed
-        elif controls["right"] == True:
-            self.angle -= self.angular_acc*self.speed
+        if controls["left"]:
+            self.angle += self.angular_acc*self.speed*dt_multiplier
+        elif controls["right"]:
+            self.angle -= self.angular_acc*self.speed*dt_multiplier
 
         if abs(self.speed) < self.friction:
             self.speed = 0
@@ -63,6 +59,7 @@ class Car:
         )
         return points
 
-    def draw(self, screen):
+    def draw(self, screen, camera_y):
         poly = self.create_polygon()
-        pygame.draw.polygon(screen, self.color, poly)
+        shifted = [(x, y - camera_y) for x, y in poly]
+        pygame.draw.polygon(screen, self.color, shifted)
