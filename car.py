@@ -2,17 +2,20 @@ import pygame
 import math
 
 class Car:
-    def __init__(self, pos, width, length, color):
+    def __init__(self, pos, width, length, color, control_type, max_speed):
         (self.x, self.y) = pos
         self.width = width
         self.length = length
         self.color = color
+        self.control_type = control_type # user/dummy/ai
+        self.max_speed = max_speed
 
         self.controls = {"forward" : False, "reverse" : False, "left" : False, "right": False}
+        if self.control_type == "dummy":
+            self.controls["forward"] = True
 
         self.speed = 0
         self.acceleration = 0.3
-        self.max_speed = 10
         self.friction = 0.02
 
         self.angle = 0
