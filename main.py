@@ -17,9 +17,9 @@ dt = 1/fps
 road = Road(origin, 500, 5, 3)
 car = Car((width/2, 2*(height/3)), 60, 100, "red", "user", 10)
 traffic = [
-    Car((width/2, height/2), 60, 100, "blue", "dummy", 6),
-    Car((width/2, height/2 - 300), 60, 100, "blue", "dummy", 6),
-    Car((width/2, height/2 - 600), 60, 100, "blue", "dummy", 6)
+    Car((road.lane_centers[1], height/2), 60, 100, "blue", "dummy", 6),
+    Car((road.lane_centers[0], height/2 - 300), 60, 100, "blue", "dummy", 6),
+    Car((road.lane_centers[2], height/2 - 600), 60, 100, "blue", "dummy", 6)
 ]
 
 while running:
