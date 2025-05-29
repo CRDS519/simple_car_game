@@ -16,7 +16,7 @@ fps = 60
 dt = 1/fps
 
 road = Road(origin, 500, 5, 3)
-car = Car((road.lane_centers[1], 2*(height/3)), 60, 100, "red", "user", 10)
+car = Car((road.lane_centers[1], 2*(height/3)), 60, 100, "red", "user", 20)
 
 def generate_traffic_cars(rows, max_cars_per_row, distance_between_rows):
     traffic_cars = []
@@ -24,11 +24,11 @@ def generate_traffic_cars(rows, max_cars_per_row, distance_between_rows):
         for j in range(max_cars_per_row):
             n = random.randint(0,road.lane_count - 1)
             traffic_cars.append(
-                Car((road.lane_centers[n], height/2 - i*distance_between_rows), 60, 100, "blue", "dummy", 6)
+                Car((road.lane_centers[n], height/2 - i*distance_between_rows), 60, 100, "blue", "dummy", 12)
             )
     return traffic_cars
 
-traffic = generate_traffic_cars(30, 2, 300)
+traffic = generate_traffic_cars(30, 2, 500)
 
 while running:
     for event in pygame.event.get():

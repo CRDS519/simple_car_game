@@ -16,11 +16,11 @@ class Car:
             self.controls["forward"] = True
 
         self.speed = 0
-        self.acceleration = 0.3
+        self.acceleration = 0.6
         self.friction = 0.02
 
         self.angle = 0
-        self.angular_acc = 0.007
+        self.angular_acc = 0.003
 
         self.poly = self.create_polygon()
 
