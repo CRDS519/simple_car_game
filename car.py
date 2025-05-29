@@ -16,11 +16,11 @@ class Car:
             self.controls["forward"] = True
 
         self.speed = 0
-        self.acceleration = 0.6
-        self.friction = 0.02
+        self.acceleration = 36
+        self.friction = 1.2
 
         self.angle = 0
-        self.angular_acc = 0.003
+        self.angular_acc = 0.05
 
         self.poly = self.create_polygon()
 
@@ -35,22 +35,20 @@ class Car:
             self.move(dt)
 
     def move(self, dt):
-        dt_multiplier = dt*60
-
         if abs(self.speed) > 0:
-            self.speed -= self.friction*self.speed*dt_multiplier
+            self.speed -= self.friction*self.speed*dt
 
         if self.controls["forward"]:
-            self.speed = min(self.speed + self.acceleration*dt_multiplier, self.max_speed)
+            self.speed = min(self.speed + self.acceleration*dt, self.max_speed)
         elif self.controls["reverse"]:
-            self.speed = max(self.speed - self.acceleration*dt_multiplier, -self.max_speed/2)
+            self.speed = max(self.speed - self.acceleration*dt, -self.max_speed/2)
 
         if self.controls["left"]:
-            self.angle += self.angular_acc*self.speed*dt_multiplier
+            self.angle += self.angular_acc*self.speed*dt
         elif self.controls["right"]:
-            self.angle -= self.angular_acc*self.speed*dt_multiplier
+            self.angle -= self.angular_acc*self.speed*dt
 
-        if abs(self.speed) < self.friction:
+        if abs(self.speed) < self.friction/10:
             self.speed = 0
 
         self.x -= self.speed*math.sin(self.angle)
