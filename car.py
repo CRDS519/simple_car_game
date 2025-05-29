@@ -1,5 +1,6 @@
 import pygame
 import math
+from utils import *
 
 class Car:
     def __init__(self, pos, width, length, color, control_type, max_speed):
@@ -21,8 +22,17 @@ class Car:
         self.angle = 0
         self.angular_acc = 0.007
 
-    def update(self, dt):
-        self.move(dt)
+        self.poly = self.create_polygon()
+
+        self.damaged = False
+
+    def update(self, dt, borders = [], traffic = []):
+        if self.damaged == False and self.control_type != "dummy":
+            self.move(dt)
+            self.assess_damage(borders, traffic)
+
+        if self.control_type == "dummy":
+            self.move(dt)
 
     def move(self, dt):
         dt_multiplier = dt*60
@@ -46,6 +56,19 @@ class Car:
         self.x -= self.speed*math.sin(self.angle)
         self.y -= self.speed*math.cos(self.angle)
 
+        self.poly = self.create_polygon()
+
+    def assess_damage(self, borders, traffic):
+        for border in borders:
+            if poly_intersect(border, self.poly):
+                self.damaged = True
+                self.color = (82,82,82)
+        
+        for poly in traffic:
+            if poly_intersect(poly, self.poly):
+                self.damaged = True
+                self.color = (82,82,82)
+
     def create_polygon(self):
         points = []
         dist = math.sqrt((self.length/2)**2 + (self.width/2)**2)
@@ -65,6 +88,5 @@ class Car:
         return points
 
     def draw(self, screen, camera_y):
-        poly = self.create_polygon()
-        shifted = [(x, y - camera_y) for x, y in poly]
+        shifted = [(x, y - camera_y) for x, y in self.poly]
         pygame.draw.polygon(screen, self.color, shifted)

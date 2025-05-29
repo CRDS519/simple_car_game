@@ -1,6 +1,7 @@
 import pygame
 from road import Road
 from car import Car
+from utils import *
 
 pygame.init()
 width = 2560
@@ -16,7 +17,9 @@ dt = 1/fps
 road = Road(origin, 500, 5, 3)
 car = Car((width/2, 2*(height/3)), 60, 100, "red", "user", 10)
 traffic = [
-    Car((width/2, height/2), 60, 100, "blue", "dummy", 6)
+    Car((width/2, height/2), 60, 100, "blue", "dummy", 6),
+    Car((width/2, height/2 - 300), 60, 100, "blue", "dummy", 6),
+    Car((width/2, height/2 - 600), 60, 100, "blue", "dummy", 6)
 ]
 
 while running:
@@ -48,8 +51,9 @@ while running:
     camera_y = car.y - screen_center_y
 
     road.draw_road(screen, 'grey', camera_y)
-    
-    car.update(dt)
+
+    traffic_polys = [dcar.poly for dcar in traffic]
+    car.update(dt, road.borders, traffic_polys)
     for dcar in traffic:
         dcar.update(dt)
 

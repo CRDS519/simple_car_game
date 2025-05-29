@@ -16,6 +16,8 @@ class Road:
         self.margin = 20
         self.dashing = 80
 
+        self.borders = [[(self.left + self.margin, self.top), (self.left + self.margin, self.bottom)], [(self.right - self.margin, self.top), (self.right - self.margin, self.bottom)]]
+
     def get_line_position(self):
         L = []
         r_width = self.width - 2*self.margin - self.line_width
