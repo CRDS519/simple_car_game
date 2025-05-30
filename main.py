@@ -65,7 +65,6 @@ while running:
     frame_ms = clock.tick(fps)
     frame_s = frame_ms/1000
     accumulator += frame_s
-    print(f"frame_s={frame_s:.4f}, accumulator={accumulator:.4f}")
 
     if accumulator > 0.25:
         accumulator = 0.25
@@ -84,9 +83,10 @@ while running:
     camera_y = car.y - screen_center_y
 
     road.draw_road(screen, 'grey', camera_y)
-    car.draw(screen, camera_y)
     for dcar in traffic:
         dcar.draw(screen, camera_y)
+    car.sensors.draw_sensor(screen, camera_y)
+    car.draw(screen, camera_y)
 
     pygame.display.flip()
 

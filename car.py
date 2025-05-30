@@ -1,6 +1,7 @@
 import pygame
 import math
 from utils import *
+from sensor import Sensor
 
 class Car:
     def __init__(self, pos, width, length, color, control_type, max_speed):
@@ -14,6 +15,9 @@ class Car:
         self.controls = {"forward" : False, "reverse" : False, "left" : False, "right": False}
         if self.control_type == "dummy":
             self.controls["forward"] = True
+
+        if self.control_type != "dummy":
+            self.sensors = Sensor(self, 5, math.pi/2, 200)
 
         self.speed = 0
         self.acceleration = 36
